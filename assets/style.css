@@ -49,3 +49,12 @@ h1 {
 .form-group input[type="submit"]:hover {
     background-color: #555;
 }
+
+
+body {
+    background-image: url('download.jpg');
+    background-size: cover;  
+    background-position: center;  
+    background-repeat: no-repeat;  
+  }
+  

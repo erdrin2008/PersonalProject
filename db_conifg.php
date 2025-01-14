@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';      // Database host (localhost for local development)
-$db = 'game_preregistration';  // Name of your database
-$user = 'root';           // MySQL username (default is 'root' for local servers)
-$password = '';           // MySQL password (default is empty for local servers)
+$host = 'localhost';      
+$db = 'game_preregistration';  
+$user = 'root';           
+$password = '';          
 
 // Create connection
 $conn = new mysqli($host, $user, $password, $db);

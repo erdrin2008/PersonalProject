@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Pre-register for [Game Name]</h1>
+        <h1>Pre-register for counter strike 3</h1>
         <form method="POST" action="submit_registration.php">
             <div class="form-group">
                 <label for="name">Full Name</label>
@@ -32,5 +32,6 @@
             </div>
         </form>
     </div>
+    
 </body>
 </html>
