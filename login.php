@@ -26,6 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<p style='color: red;'>Invalid username or password.</p>";
     }
 }
+
+
+if ($result->num_rows > 0) {
+    $_SESSION['user'] = $username;
+    header("Location: home.php"); 
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

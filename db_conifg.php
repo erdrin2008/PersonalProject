@@ -4,11 +4,14 @@ $db = 'game_preregistration';
 $user = 'root';           
 $password = '';          
 
-// Create connection
-$conn = new mysqli($host, $user, $password, $db);
 
-// Check connection
+$conn = new mysql($host, $user, $password, $db);
+
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 ?>
+
+
+

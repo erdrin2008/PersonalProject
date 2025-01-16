@@ -9,6 +9,12 @@
 
 </head>
 <body>
+<header>
+    <div class="nav-links">
+        <a href="home.php">Home</a>
+        <a href="settings.php">Settings</a>
+        <a href="logout.php">Logout</a> 
+</header>
     <nav class="navbae navbar-expand-lg bg-body-tertiary"></nav>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
