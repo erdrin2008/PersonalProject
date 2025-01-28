@@ -1,11 +1,13 @@
 <?php
 session_start();
+
+
 $host = 'localhost';
-$db = 'game_preregistration';
+$db = 'personalproject';
 $user = 'root';
 $password = '';
 
-$conn = new mysql($host, $user, $password, $db);
+$conn = new mysqli($host, $user, $password, $db);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -13,27 +15,35 @@ if ($conn->connect_error) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $conn->real_escape_string($_POST['username']);
-    $password = $conn->real_escape_string($_POST['password']);
+    $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-    $result = $conn->query($sql);
+    
+    $sql = "SELECT id, username, password FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        $_SESSION['user'] = $username;
-        header("Location: index.php");
-        exit();
+    
+        $user = $result->fetch_assoc();
+
+       
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user'] = $user['username'];
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "<p style='color: red;'>Invalid username or password.</p>";
+        }
     } else {
         echo "<p style='color: red;'>Invalid username or password.</p>";
     }
-}
 
-
-if ($result->num_rows > 0) {
-    $_SESSION['user'] = $username;
-    header("Location: home.php"); 
-    exit();
+    $stmt->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

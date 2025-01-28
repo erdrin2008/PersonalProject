@@ -1,4 +1,49 @@
-<?php include 'index.php'; ?>
+<?php
+include 'index.php'; 
+
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    $name = htmlspecialchars(trim($_POST['name']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $password = $_POST['password'];
+
+   
+    if (strlen($password) < 8) {
+        echo "<div class='alert alert-danger'>Password must be at least 8 characters long.</div>";
+    } else {
+        
+        $sql = "SELECT id FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows > 0) {
+            echo "<div class='alert alert-danger'>This email is already registered. Please log in.</div>";
+        } else {
+           
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+           
+            $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('sss', $name, $email, $hashed_password);
+
+            if ($stmt->execute()) {
+                
+                echo "<div class='alert alert-success'>Registration successful! <a href='login.php'>Login here</a>.</div>";
+                exit(); 
+            } else {
+                echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
+            }
+        }
+        $stmt->close();
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,23 +60,6 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <h2 class="text-center">Register</h2>
-                        <?php
-                        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                            $name = $_POST['name'];
-                            $email = $_POST['email'];
-                            $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-                            $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-                            $stmt = $conn->prepare($sql);
-                            $stmt->bind_param('sss', $name, $email, $password);
-
-                            if ($stmt->execute()) {
-                                echo "<div class='alert alert-success'>Registration successful! <a href='login.php'>Login here</a>.</div>";
-                            } else {
-                                echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
-                            }
-                        }
-                        ?>
                         <form method="POST">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>

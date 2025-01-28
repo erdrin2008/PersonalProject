@@ -1,11 +1,19 @@
-<?php
-$host = 'localhost';      
-$db = 'personalproject';  
-$user = 'root';           
-$password = '';          
 
-try{
-    $conn = new PDO("mysql:host=$host;dbname=$db",$user,$password);
-}catch (PDOExpection $e) {
-    echo "error: " . $e->getMessage();
-} 
+
+
+<?php
+$host = 'localhost';
+$db = 'personalproject';
+$user = 'root';
+$password = '';
+
+
+$conn = new mysqli($host, $user, $password, $db);
+
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+echo "Connected successfully!";
+?>

@@ -3,6 +3,11 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
 }
 
 .container {
@@ -17,6 +22,8 @@ body {
 h1 {
     text-align: center;
     color: #333;
+    font-size: 2rem;
+    line-height: 1.5;
 }
 
 .form-group {
@@ -51,10 +58,13 @@ h1 {
 }
 
 
-body {
-    background-image: url('background.jpg');
-    background-size: cover;  
-    background-position: center;  
-    background-repeat: no-repeat;  
-  }
-  
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+}

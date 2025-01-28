@@ -1,19 +1,17 @@
 <?php
-include 'db_config.php';
+include ('db_conifg.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $conn->real_escape_string($_POST['name']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $platform = $conn->real_escape_string($_POST['platform']);
+$servername = 'localhost';
+$username = 'root';
+$password = '';
+$db = 'personalproject';
 
-    $sql = "INSERT INTO registrations (name, email, platform) VALUES ('$name', '$email', '$platform')";
+$conn = new mysqli($servername, $username, $password, $db);
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Thank you for pre-registering, $name! You will receive updates at $email.</p>";
-    } else {
-        echo "<p style='color: red;'>Error: " . $conn->error . "</p>";
-    }
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
-$conn->close();
+echo "Connection successful";
 ?>
+
+

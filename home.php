@@ -1,14 +1,16 @@
 <?php
 session_start();
 
+
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
 }
 
+
 if (isset($_GET['logout'])) {
-    session_destroy();
-    header("Location: login.php");
+    session_destroy(); 
+    header("Location: login.php"); 
     exit();
 }
 ?>
@@ -23,7 +25,7 @@ if (isset($_GET['logout'])) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('assets/background.jpg');
+            background-image: url('assets/background.jpg'); 
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
@@ -32,7 +34,7 @@ if (isset($_GET['logout'])) {
         }
 
         header {
-            background-color: #333;
+            background-color: #333; 
             padding: 10px 0;
             text-align: center;
         }
@@ -135,5 +137,22 @@ if (isset($_GET['logout'])) {
         <p>We appreciate your interest in our game. Please be patient while we work on getting the game ready for launch.</p>
         <p>Stay tuned for updates, and thank you again for your support!</p>
 
+      
         <video id="gameVideo" controls>
-            <source src="assets/game-preview.mp4"
+            <source src="assets/game-preview.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+       
+        <button id="toggleVideoSize">Toggle Video Size</button>
+    </div>
+
+    <script>
+       
+        document.getElementById("toggleVideoSize").addEventListener("click", function() {
+            var video = document.getElementById("gameVideo");
+            video.classList.toggle("extended"); 
+        });
+    </script>
+</body>
+</html>
