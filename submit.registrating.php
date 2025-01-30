@@ -1,26 +1,27 @@
 <?php
-
-include ('db_conifg.php');  
+include('db_conifg.php');  
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $user_id = $_POST['user_id']; 
-    $game_id = $_POST['game_id'];  
+   
+    $name = $_POST['name']; 
+    $email = $_POST['email'];  
+    $platform = $_POST['platform'];  
 
    
-    $sql = "INSERT INTO registration (user_id, game_id, status) VALUES (?, ?, 'pending')";
-    
+    $sql = "INSERT INTO registrations (name, email, platform, status) VALUES (?, ?, ?, 'pending')";
+
    
     $stmt = $conn->prepare($sql);
     if ($stmt) {
-        $stmt->bind_param("ii", $user_id, $game_id); 
+       
+        $stmt->bind_param("sss", $name, $email, $platform);
         if ($stmt->execute()) {
             echo "Registration successful!";
         } else {
-            echo "Error: " . $stmt->error;
+            echo "Error: " . $stmt->error; 
         }
     } else {
-        echo "Error preparing statement: " . $conn->error;
+        echo "Error preparing statement: " . $conn->error; 
     }
 }
 ?>
