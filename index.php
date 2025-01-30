@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Pre-register for dark souls</h1>
-        <form method="POST" action="submit_registration.php">
+        <form method="POST" action="submit.registrating.php">
             <div class="form-group">
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" required>

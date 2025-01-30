@@ -2,6 +2,7 @@
 
 session_start();
 
+require_once 'db_conifg.php'; 
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'user') {
     header('Location: ../login.php'); 
@@ -10,14 +11,15 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'user') {
 
 $user_id = $_SESSION['user_id']; 
 
-
 $sql = "SELECT b.id, m.title, b.show_time, b.status
         FROM registration b
         INNER JOIN games m ON b.game_id = m.id
-        WHERE b.user_id = $user_id";
+        WHERE b.user_id = ?";
 
-$result = $conn->query($sql);
-
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if (!$result) {
     die("Query failed: " . $conn->error);
@@ -33,14 +35,13 @@ if (!$result) {
         <thead>
             <tr>
                 <th>#</th>
-                <th>dark soul</th>
+                <th>Game Title</th>
                 <th>Show Time</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
             <?php
-           
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
@@ -57,4 +58,3 @@ if (!$result) {
         </tbody>
     </table>
 </div>
-
