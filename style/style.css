@@ -1,0 +1,151 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers all content horizontally */
+    justify-content: center; /* Centers all content vertically */
+    min-height: 100vh; /* Full height of the viewport */
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Centering Content */
+.container {
+    width: 100%;
+    max-width: 1200px; /* Adjust the max-width to your preference */
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Product List Styling */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.product {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.product img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Form Styling (for add.php & edit.php, login, and register) */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Fields */
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button Styling */
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Login/Register Prompt Styling */
+.login-prompt {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-prompt a {
+    background-color: #17a2b8;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.login-prompt a:hover {
+    background-color: #138496;
+}
+
+/* Centered Add Button */
+.add-btn {
+    display: block;
+    text-align: center;
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    margin: 20px auto;
+    width: 200px;
+    border-radius: 5px;
+}
+
+.add-btn:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design for Small Screens */
+@media screen and (max-width: 768px) {
+    .product-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .product {
+        padding: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .product-list {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+}
