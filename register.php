@@ -5,7 +5,6 @@ include 'db.php';
 $error = "";
 $success = "";
 
-// Redirect if already logged in
 if (isset($_SESSION['user_id'])) {
     header("Location: index.php"); // Redirect to home if logged in
     exit;
@@ -16,11 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
-    // Check if passwords match
     if ($password !== $confirmPassword) {
         $error = "Passwords do not match.";
     } else {
-        // Check if username already exists
+     
         $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -28,12 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($user) {
             $error = "Username already taken.";
         } else {
-            // Hash the password and insert the new user
+           
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
             $stmt->execute([$username, $hashedPassword]);
 
-            // Redirect to login after successful registration
+           
             header("Location: login.php");
             exit;
         }

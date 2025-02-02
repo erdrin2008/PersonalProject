@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stock = $_POST['stock'];
     $image = '';
 
-    // Handle File Upload
     if (!empty($_FILES['image']['name'])) {
         $targetDir = "uploads/";
         $image = basename($_FILES["image"]["name"]);
@@ -16,11 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath);
     }
 
-    // Insert Data into Database
     $stmt = $conn->prepare("INSERT INTO products (name, description, price, stock, image) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$name, $description, $price, $stock, $image]);
 
-    // Redirect to Index Page
     header("Location: index.php");
     exit;
 }

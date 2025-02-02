@@ -2,7 +2,6 @@
 session_start();
 include 'db.php';
 
-// Check if an ID is provided
 if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit;
@@ -10,7 +9,6 @@ if (!isset($_GET['id'])) {
 
 $id = (int)$_GET['id']; // Sanitize the ID
 
-// Fetch existing product details
 try {
     $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
     $stmt->execute([$id]);
@@ -24,42 +22,34 @@ try {
     die("Database error: " . $e->getMessage());
 }
 
-// Handle form submission for updating product
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate and sanitize inputs
     $name = htmlspecialchars(trim($_POST['name']));
     $description = htmlspecialchars(trim($_POST['description']));
     $price = (float)$_POST['price'];
     $stock = (int)$_POST['stock'];
     $image = $product['image']; // Keep the old image by default
 
-    // Handle File Upload if a new image is uploaded
     if (!empty($_FILES['image']['name'])) {
         $targetDir = "uploads/";
         $imageFileType = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
 
-        // Check if the file is an image
         if (!in_array($imageFileType, $allowedTypes)) {
             die("Error: Only JPG, JPEG, PNG, and GIF files are allowed.");
         }
 
-        // Generate a unique filename to avoid overwriting
         $image = uniqid() . "." . $imageFileType;
         $targetFilePath = $targetDir . $image;
 
-        // Move the uploaded file
         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
             die("Error: Failed to upload the image.");
         }
     }
 
-    // Update product in database
     try {
         $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, stock = ?, image = ? WHERE id = ?");
         $stmt->execute([$name, $description, $price, $stock, $image, $id]);
 
-        // Set a success message in the session
         $_SESSION['success_message'] = "Product updated successfully!";
         header("Location: index.php");
         exit;

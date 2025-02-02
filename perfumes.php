@@ -1,39 +1,15 @@
 <?php
 session_start();
-include 'db.php'; 
+include 'db.php';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
-    $gender = isset($_GET['gender']) ? $_GET['gender'] : null;
-    $fragrance_type = isset($_GET['fragrance_type']) ? $_GET['fragrance_type'] : null;
-
-    $sql = "SELECT * FROM products WHERE 1=1";
-    $params = [];
-
-    if ($gender) {
-        $sql .= " AND gender = :gender";
-        $params[':gender'] = $gender;
-    }
-
-    if ($fragrance_type) {
-        $sql .= " AND fragrance_type = :fragrance_type";
-        $params[':fragrance_type'] = $fragrance_type;
-    }
-
-    $stmt = $conn->prepare($sql);
-    $stmt->execute($params);
+    $stmt = $conn->query("SELECT * FROM products WHERE category = 'perfume'");
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-
     die("Database error: " . $e->getMessage());
-}
-
-
-if (!isset($products) || !is_array($products)) {
-    $products = [];
 }
 ?>
 
@@ -42,11 +18,10 @@ if (!isset($products) || !is_array($products)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfume List</title>
+    <title>Perfume Collection</title>
     <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
-
 
     <nav>
         <ul>
@@ -54,20 +29,10 @@ if (!isset($products) || !is_array($products)) {
             <li><a href="perfumes.php">Perfumes</a></li>
             <li><a href="aboutus.php">About Us</a></li>
             <li><a href="contact.php">Contact</a></li>
-            <li><a href="add.php">Add Product</a></li>
         </ul>
     </nav>
 
-    <h1>Explore Perfumes 
-        <?php 
-        if (isset($_GET['gender'])) {
-            echo "for " . ucfirst($_GET['gender']);
-        } elseif (isset($_GET['fragrance_type'])) {
-            echo "with " . ucfirst($_GET['fragrance_type']) . " Fragrance";
-        }
-        ?>
-    </h1>
-
+    <h1>Explore Our Perfume Collection</h1>
 
     <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-info">
@@ -83,28 +48,25 @@ if (!isset($products) || !is_array($products)) {
         </ul>
     </section>
 
-
     <section>
         <h2>GENDER</h2>
         <ul>
-            <li><a href="index.php?gender=men" class="<?php echo (isset($_GET['gender']) && $_GET['gender'] === 'men') ? 'active' : ''; ?>">Men</a></li>
-            <li><a href="index.php?gender=women" class="<?php echo (isset($_GET['gender']) && $_GET['gender'] === 'women') ? 'active' : ''; ?>">Women</a></li>
-            <li><a href="index.php?gender=unisex" class="<?php echo (isset($_GET['gender']) && $_GET['gender'] === 'unisex') ? 'active' : ''; ?>">Unisex</a></li>
+            <li>Men</li>
+            <li>Women</li>
+            <li>Unisex</li>
         </ul>
     </section>
-
 
     <section>
         <h2>FRAGRANCE TYPES</h2>
         <ul>
-            <li><a href="index.php?fragrance_type=floral" class="<?php echo (isset($_GET['fragrance_type']) && $_GET['fragrance_type'] === 'floral') ? 'active' : ''; ?>">Floral</a></li>
-            <li><a href="index.php?fragrance_type=woody" class="<?php echo (isset($_GET['fragrance_type']) && $_GET['fragrance_type'] === 'woody') ? 'active' : ''; ?>">Woody</a></li>
-            <li><a href="index.php?fragrance_type=citrus" class="<?php echo (isset($_GET['fragrance_type']) && $_GET['fragrance_type'] === 'citrus') ? 'active' : ''; ?>">Citrus</a></li>
-            <li><a href="index.php?fragrance_type=oriental" class="<?php echo (isset($_GET['fragrance_type']) && $_GET['fragrance_type'] === 'oriental') ? 'active' : ''; ?>">Oriental</a></li>
-            <li><a href="index.php?fragrance_type=fresh" class="<?php echo (isset($_GET['fragrance_type']) && $_GET['fragrance_type'] === 'fresh') ? 'active' : ''; ?>">Fresh</a></li>
+            <li>Floral</li>
+            <li>Woody</li>
+            <li>Citrus</li>
+            <li>Oriental</li>
+            <li>Fresh</li>
         </ul>
     </section>
-
 
     <section>
         <h2>PRICE RANGE</h2>
@@ -115,15 +77,9 @@ if (!isset($products) || !is_array($products)) {
         </ul>
     </section>
 
-
-    <div class="add-product">
-        <a href="add.php" class="btn">Add New Product</a>
-    </div>
-
-  
     <div class="product-list">
         <?php if (empty($products)): ?>
-            <p>No products found.</p>
+            <p>No perfumes found.</p>
         <?php else: ?>
             <?php foreach ($products as $product): ?>
                 <div class="product">
@@ -146,7 +102,6 @@ if (!isset($products) || !is_array($products)) {
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-
 
     <section>
         <h2>Get Weekly Updates</h2>
