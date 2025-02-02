@@ -28,12 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="style/styles.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
 
     <h1>Login</h1>
-
+    <div class="nav-container">
+        <ul class="nav-left">
+            <li class="logo">
+                <a href="index.php">
+                    <img src="uploads/LOGO.jpg" alt="Perfume Store Logo">
+                </a>
     <div class="form-container">
         <?php if (isset($error_message)): ?>
             <p style="color: red;"><?php echo $error_message; ?></p>
@@ -49,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p>Don't have an account? <a href="register.php">Register here</a></p>
         </div>
     </div>
-
+    
+   
 </body>
 </html>

@@ -45,10 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="style/styles.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-
+<div class="nav-container">
+        <ul class="nav-left">
+            <li class="logo">
+                <a href="index.php">
+                    <img src="uploads/LOGO.jpg" alt="Perfume Store Logo">
+                </a>
     <h1>Create an Account</h1>
     <div class="form-container">
         <form action="register.php" method="POST">
@@ -72,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <br>
     <a href="login.php" class="add-btn">Already have an account? Login</a>
-
+    
+  
 </body>
 </html>

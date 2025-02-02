@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2025 at 05:35 PM
+-- Generation Time: Feb 02, 2025 at 09:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,48 +24,66 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `players`
+-- Table structure for table `contacts`
 --
 
-CREATE TABLE `players` (
-  `players` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `registrations`
---
-
-CREATE TABLE `registrations` (
+CREATE TABLE `contacts` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `platform` varchar(50) NOT NULL,
-  `status` varchar(255) DEFAULT 'pending'
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `registrations`
+-- Dumping data for table `contacts`
 --
 
-INSERT INTO `registrations` (`id`, `name`, `email`, `platform`, `status`) VALUES
-(1, 'fsdsfsfsf', 'sfsdfsfsfs@dgdfgdg', 'pc', 'pending'),
-(2, 'fdssdfsdf', 'sfsdfsfsfs@dgdfgdg', 'pc', 'pending'),
-(3, 'fsdsfsfsf', 'sfsdfsfsfs@dgdfgdg', 'android', 'pending'),
-(4, 'erdrindemi', 'erdrindemi@icloud.com', 'pc', 'pending'),
-(5, 'erdrindemi', 'erdrindemi@icloud.com', 'pc', 'pending');
+INSERT INTO `contacts` (`id`, `name`, `email`, `message`, `created_at`) VALUES
+(1, 'Archicad', 'ergesademi@gmail.com', 'sdf', '2025-02-02 14:59:26'),
+(2, 'student', 'ergesademi@gmail.com', 'dsadadsa', '2025-02-02 14:59:33'),
+(3, 'student', 'ergesademi@gmail.com', 'c', '2025-02-02 15:16:46'),
+(4, 'student', 'ed48035@ubt-uni.net', 'j', '2025-02-02 15:16:54');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status`
+-- Table structure for table `products`
 --
 
-CREATE TABLE `status` (
-  `status` int(11) NOT NULL
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `stock` int(11) NOT NULL DEFAULT 0,
+  `category` varchar(255) DEFAULT NULL,
+  `gender` varchar(50) DEFAULT NULL,
+  `fragrance_type` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscribers`
+--
+
+CREATE TABLE `subscribers` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `subscribed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subscribers`
+--
+
+INSERT INTO `subscribers` (`id`, `email`, `subscribed_at`) VALUES
+(1, 'ed48035@ubt-uni.net', '2025-02-02 17:47:03'),
+(3, 'erdrindemi2008@gmail.com', '2025-02-02 17:47:51'),
+(6, 'ergesademi@gmail.com', '2025-02-02 17:51:40'),
+(8, 'demiergesa@gmail.com', '2025-02-02 17:52:07');
 
 -- --------------------------------------------------------
 
@@ -75,7 +93,7 @@ CREATE TABLE `status` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -84,33 +102,59 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'testuser', 'password123');
+(1, 'erdrindemi', '$2y$10$ar4hMMnNX2c6H7hoPi9kL.bKgKla6wvAALvKL4UMpppNDwl/YVZRa');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `registrations`
+-- Indexes for table `contacts`
 --
-ALTER TABLE `registrations`
+ALTER TABLE `contacts`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `registrations`
+-- AUTO_INCREMENT for table `contacts`
 --
-ALTER TABLE `registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `subscribers`
+--
+ALTER TABLE `subscribers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

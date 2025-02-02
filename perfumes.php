@@ -19,16 +19,23 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfume Collection</title>
-    <link rel="stylesheet" href="style/styles.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
 
     <nav>
         <ul>
+             <div class="nav-container">
+        <ul class="nav-left">
+            <li class="logo">
+                <a href="index.php">
+                    <img src="uploads/LOGO.jpg" alt="Perfume Store Logo">
+                </a>
             <li><a href="index.php">Home</a></li>
             <li><a href="perfumes.php">Perfumes</a></li>
             <li><a href="aboutus.php">About Us</a></li>
             <li><a href="contact.php">Contact</a></li>
+
         </ul>
     </nav>
 
@@ -37,7 +44,7 @@ try {
     <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-info">
             <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-            <a href="logout.php" class="btn">Logout</a>
+
         </div>
     <?php endif; ?>
 
@@ -117,6 +124,7 @@ try {
         <p>Email: <a href="erdrindemi@icloud.com">erdrindemi@icloud.com</a></p>
         <p>Phone: (x) 950-385-5862</p>
     </section>
+
 
 </body>
 </html>

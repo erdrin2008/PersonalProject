@@ -9,17 +9,24 @@ include 'db.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="stylesheet" href="style/styles.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
 
 
     <nav>
         <ul>
+        <div class="nav-container">
+        <ul class="nav-left">
+            <li class="logo">
+                <a href="index.php">
+                    <img src="uploads/LOGO.jpg" alt="Perfume Store Logo">
+                </a>
             <li><a href="index.php">Home</a></li>
             <li><a href="perfumes.php">Perfumes</a></li>
-            <li><a href="aboutus.php">About Us</a></li> <!-- Updated link -->
+            <li><a href="aboutus.php">About Us</a></li> 
             <li><a href="contact.php">Contact</a></li>
+            <li><a href="aboutus.php">Add new product</a></li>
         </ul>
     </nav>
 
@@ -29,7 +36,7 @@ include 'db.php';
     <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-info">
             <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-            <a href="logout.php" class="btn">Logout</a>
+
         </div>
     <?php endif; ?>
 
