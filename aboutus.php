@@ -28,6 +28,13 @@ include 'db.php';
             <li><a href="contact.php">Contact</a></li>
             <li><a href="aboutus.php">Add new product</a></li>
         </ul>
+        <ul class="nav-right">
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <li><a href="logout.php" class="btn">Logout</a></li>
+            <?php else: ?>
+                <li><a href="login.php" class="btn">Login</a></li>
+            <?php endif; ?>
+        </ul>
     </nav>
 
     <h1>About Us</h1>

@@ -3,23 +3,27 @@ session_start();
 include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
-    $stmt->bindParam(':username', $username);
+    $stmt->bindValue(':username', $username, PDO::PARAM_STR);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['token'] = bin2hex(random_bytes(32)); 
+
         header("Location: index.php");
         exit;
     } else {
         $error_message = "Invalid username or password.";
     }
 }
+?>
+
 ?>
 
 <!DOCTYPE html>
@@ -30,31 +34,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
     <link rel="stylesheet" href="style/style.css">
 </head>
-<body>
-
-    <h1>Login</h1>
-    <div class="nav-container">
-        <ul class="nav-left">
-            <li class="logo">
-                <a href="index.php">
-                    <img src="uploads/LOGO.jpg" alt="Perfume Store Logo">
-                </a>
-    <div class="form-container">
-        <?php if (isset($error_message)): ?>
-            <p style="color: red;"><?php echo $error_message; ?></p>
-        <?php endif; ?>
+<body class="auth-page">
+    <div class="auth-container">
+        <h1>Login</h1>
         
-        <form action="login.php" method="POST">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+        <?php if (isset($error_message)): ?>
+            <p class="error-message"><?php echo $error_message; ?></p>
+        <?php endif; ?>
+
+        <form class="auth-form" action="login.php" method="POST">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
             <button type="submit">Login</button>
         </form>
 
-        <div class="login-prompt">
+        <div class="auth-switch">
             <p>Don't have an account? <a href="register.php">Register here</a></p>
         </div>
     </div>
-    
-   
 </body>
 </html>

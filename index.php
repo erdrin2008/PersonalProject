@@ -94,14 +94,11 @@ if (!isset($products) || !is_array($products)) {
     }
     ?>
 </h1>
-
 <?php if (isset($_SESSION['user_id'])): ?>
     <div class="user-info">
         <p>Welcome, blert crud e ki kur te bon ni product nese nuk e bon ni product crudin nuk munesh me pa <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-       
     </div>
 <?php endif; ?>
-
 <section>
     <h2>CATEGORIES</h2>
     <ul>

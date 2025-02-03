@@ -28,17 +28,18 @@ include 'db.php';
             <li><a href="add.php">Add new product</a></li>
             
         </ul>
-        
+        <ul class="nav-right">
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <li><a href="logout.php" class="btn">Logout</a></li>
+            <?php else: ?>
+                <li><a href="login.php" class="btn">Login</a></li>
+            <?php endif; ?>
+        </ul>
     </nav>
 
     <h1>Contact Us</h1>
 
-    <?php if (isset($_SESSION['user_id'])): ?>
-        <div class="user-info">
-            <p>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
-
-        </div>
-    <?php endif; ?>
+    
 
     <section>
         <h2>Get in Touch</h2>

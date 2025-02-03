@@ -2,42 +2,44 @@
 session_start();
 include 'db.php';
 
+
 $error = "";
-$success = "";
 
 if (isset($_SESSION['user_id'])) {
-    header("Location: index.php"); // Redirect to home if logged in
+    header("Location: index.php"); 
     exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+    $confirmPassword = trim($_POST['confirmPassword']);
 
     if ($password !== $confirmPassword) {
         $error = "Passwords do not match.";
     } else {
-     
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->execute([$username]);
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
             $error = "Username already taken.";
         } else {
-           
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-            $stmt->execute([$username, $hashedPassword]);
+            $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+            $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+            $stmt->bindValue(':password', $hashedPassword, PDO::PARAM_STR);
+            $stmt->execute();
 
-           
             header("Location: login.php");
             exit;
         }
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,37 +49,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Register</title>
     <link rel="stylesheet" href="style/style.css">
 </head>
-<body>
-<div class="nav-container">
-        <ul class="nav-left">
-            <li class="logo">
-                <a href="index.php">
-                    <img src="uploads/LOGO.jpg" alt="Perfume Store Logo">
-                </a>
-    <h1>Create an Account</h1>
-    <div class="form-container">
-        <form action="register.php" method="POST">
-            <label>Username:</label>
-            <input type="text" name="username" required>
+<body class="auth-page">
+    <div class="auth-container">
+        <h1>Create Account</h1>
+        
+        <?php if ($error): ?>
+            <p class="error-message"><?php echo $error; ?></p>
+        <?php endif; ?>
 
-            <label>Password:</label>
-            <input type="password" name="password" required>
-
-            <label>Confirm Password:</label>
-            <input type="password" name="confirmPassword" required>
-
+        <form class="auth-form" action="register.php" method="POST">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+            </div>
             <button type="submit">Register</button>
         </form>
 
-        <?php if ($error): ?>
-            <p style="color: red; text-align: center;"><?php echo $error; ?></p>
-        <?php endif; ?>
-
+        <div class="auth-switch">
+            <p>Already have an account? <a href="login.php">Login here</a></p>
+        </div>
     </div>
-
-    <br>
-    <a href="login.php" class="add-btn">Already have an account? Login</a>
-    
-  
 </body>
 </html>
